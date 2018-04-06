@@ -268,8 +268,6 @@ func ParsePBSRequest(r *http.Request, cache cache.Cache, hostCookieSettings *Hos
 			}
 		}
 
-		pbsReq.Device.UA = r.Header.Get("User-Agent")
-
 		pbsReq.Url = r.Header.Get("Referer") // must be specified in the header
 		// TODO: this should explicitly put us in test mode
 		if r.FormValue("url_override") != "" {
@@ -293,7 +291,8 @@ func ParsePBSRequest(r *http.Request, cache cache.Cache, hostCookieSettings *Hos
 			return nil, fmt.Errorf("Invalid URL '%s': %v", url.Host, err)
 		}
 	}
-
+	pbsReq.Device.UA = r.Header.Get("User-Agent")
+	
 	if r.FormValue("debug") == "1" {
 		pbsReq.IsDebug = true
 	}
